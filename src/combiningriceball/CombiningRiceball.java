@@ -42,7 +42,9 @@ public class CombiningRiceball {
         for (int len=riceballs.length;len>=1;len--) {
             for (int start=0;start<=riceballs.length-len;start++) {
                 int riceball=getRiceball(start,start+len-1);
-                if (maxRiceball<riceball) maxRiceball=riceball;
+                if (maxRiceball<riceball) {
+                    maxRiceball=riceball;
+                }
             }
         }
         return maxRiceball;
