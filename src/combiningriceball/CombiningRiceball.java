@@ -15,6 +15,7 @@ public class CombiningRiceball {
 
     static int[] riceballs;
     static int[][] getRiceballBackup;
+    static int[][] getMaxRiceballBackup;
 
     /**
      * @param args the command line arguments
@@ -25,28 +26,30 @@ public class CombiningRiceball {
         int n = sc.nextInt();
         riceballs = new int[n];
         getRiceballBackup = new int[n][n];
-        
+        getMaxRiceballBackup = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 getRiceballBackup[i][j] = -1;
+                getMaxRiceballBackup[i][j] = -1;
             }
         }
         for (int i = 0; i < n; i++) {
             riceballs[i] = sc.nextInt();
         }
-        System.out.println(getMaxRiceball());
+        System.out.println(getMaxRiceball(0, riceballs.length - 1));
     }
 
-    private static int getMaxRiceball() {
-        int maxRiceball=0;
-        for (int len=riceballs.length;len>=1;len--) {
-            for (int start=0;start<=riceballs.length-len;start++) {
-                int riceball=getRiceball(start,start+len-1);
-                if (maxRiceball<riceball) {
-                    maxRiceball=riceball;
-                }
-            }
+    private static int getMaxRiceball(int start, int end) {
+        int maxRiceball=getMaxRiceballBackup[start][end];
+        if (maxRiceball!=-1) return maxRiceball;
+        
+        maxRiceball = getRiceball(start, end);
+        if (maxRiceball > 0) {
+            getMaxRiceballBackup[start][end]=maxRiceball;
+            return maxRiceball;
         }
+        maxRiceball=Math.max(getMaxRiceball(start, end - 1), getMaxRiceball(start + 1, end));
+        getMaxRiceballBackup[start][end]=maxRiceball;
         return maxRiceball;
     }
 
